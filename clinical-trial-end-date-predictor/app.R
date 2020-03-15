@@ -16,9 +16,8 @@ ui <-
             sidebarPanel(
                 dateInput("todays.date", 
                           "Today's Date"),
-                numericInput("weeks.open", 
-                            "Number of Weeks the trial has been open", 
-                            min = 1, max = 1000, value = 1, step = 1),
+                dateInput("trial.open.date", 
+                            "Date the trial opened (beginning of accrual)"),
                 numericInput("accrual.target", 
                             "Accrual Target", 
                             min = 1, max = 2000, value = 63, step = 1),
@@ -41,9 +40,14 @@ server <- function(input, output) {
     date.full.accrual <- reactive({
         patients.to.go <- input$accrual.target - input$current.accrual
         
+        weeks.open <- as.numeric(input$todays.date - 
+                                   input$trial.open.date) / 7
+
+        
         weeks.to.full.accrual <- ceiling(patients.to.go / 
                                              (input$current.accrual / 
-                                                  input$weeks.open))
+                                                  weeks.open)
+                                         )
         
         input$todays.date + 
             lubridate::weeks(weeks.to.full.accrual)
@@ -52,9 +56,12 @@ server <- function(input, output) {
     date.study.completion <- reactive({
         patients.to.go <- input$accrual.target - input$current.accrual
         
+        weeks.open <- as.numeric(input$todays.date - 
+                                   input$trial.open.date) / 7
+        
         weeks.to.full.accrual <- ceiling(patients.to.go / 
                                              (input$current.accrual / 
-                                                  input$weeks.open))
+                                                  weeks.open))
         
         weeks.to.completion <- weeks.to.full.accrual + input$study.duration
         
