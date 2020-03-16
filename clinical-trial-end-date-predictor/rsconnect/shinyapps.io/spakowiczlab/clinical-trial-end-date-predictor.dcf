@@ -5,6 +5,8 @@ account: spakowiczlab
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1950262
-bundleId: 2882459
+bundleId: 2884820
 url: https://spakowiczlab.shinyapps.io/clinical-trial-end-date-predictor/
-when: 1584245839.43123
+when: 1584321840.63656
+asMultiple: FALSE
+asStatic: FALSE
